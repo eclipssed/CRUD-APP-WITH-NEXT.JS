@@ -1,0 +1,4 @@
+{
+    "files.refactoring.autoSave": true,
+    "files.autoSave": "afterDelay"
+}
