@@ -8,7 +8,8 @@ const getTopicById = async (id) => {
     const res = await fetch(`http://localhost:3000/api/topics/${id}`, {
       cache: "no-store",
     });
-    return res.json();
+    const data = await res.json();
+    return data.topic;
   } catch (error) {
     console.log("error while fetching topic for edit", error);
   }
@@ -16,8 +17,8 @@ const getTopicById = async (id) => {
 
 const editTopic = async ({ params }) => {
   const { id } = params;
-  const { topic }  = await getTopicById(id);
-  const { title, description } = await topic;
+  const topics = await getTopicById(id);
+  const { title, description } = await topics;
 
   return <EditTopicForm id={id} title={title} description={description} />;
 };

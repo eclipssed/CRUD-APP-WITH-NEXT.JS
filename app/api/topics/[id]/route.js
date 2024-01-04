@@ -3,8 +3,7 @@ import { NextResponse } from "next/server";
 import Topic from "@/models/topic";
 
 connectMongoDB()
-  .then(() => console.log("connection was successful now you can move on."))
-  .catch(() => console.log("got some issue in connection"));
+  
 
 export async function PUT(req, { params }) {
   const { id } = params;

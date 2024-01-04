@@ -5,15 +5,15 @@ import { useRouter } from "next/navigation";
 
 import React from "react";
 
-const addTopic = () => {
+const AddTopicPage = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(isSubmitting){
+    if (isSubmitting) {
       return;
     }
 
@@ -34,7 +34,7 @@ const addTopic = () => {
       });
       if (res.ok) {
         router.push("/");
-        router.refresh()
+        router.refresh();
       }
     } catch (error) {
       console.log("error while submitting the form", error);
@@ -57,7 +57,7 @@ const addTopic = () => {
         placeholder="Topic Description"
         className="border border-slate-500 px-8 py-2"
       />
-       <button
+      <button
         type="submit"
         className={`bg-green-600 font-bold text-white py-3 px-6 w-fit ${
           isSubmitting ? "cursor-not-allowed opacity-50" : "" // Disable button and change cursor if submitting
@@ -70,4 +70,4 @@ const addTopic = () => {
   );
 };
 
-export default addTopic;
+export default AddTopicPage;
