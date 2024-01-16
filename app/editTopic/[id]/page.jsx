@@ -1,11 +1,8 @@
-"use client";
-
-import React from "react";
 import EditTopicForm from "../../../components/editTopicForm";
 
 const getTopicById = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/topics/${id}`, {
+    const res = await fetch(process.env.ROOT_URI + `/api/topics/${id}`, {
       cache: "no-store",
     });
     const data = await res.json();

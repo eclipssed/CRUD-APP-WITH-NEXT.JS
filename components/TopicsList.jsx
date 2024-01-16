@@ -1,14 +1,15 @@
 import React from "react";
 import RemoveBtn from "./RemoveBtn";
 import Link from "next/link";
-import { HiPencilAlt, HiTrash } from "react-icons/hi";
+import { HiPencilAlt } from "react-icons/hi";
 
 const getTopics = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/topics", {
+    const res = await fetch(process.env.ROOT_URI + "/api/topics", {
       cache: "no-store",
     });
-    return res.json();
+    const data = await res.json();
+    return data;
   } catch (error) {
     console.log("error while fetcing data", error);
   }
@@ -19,7 +20,10 @@ const TopicsList = async () => {
   return (
     <>
       {topics.map((topic) => (
-        <div key={topic._id} className="flex justify-between items-start my-3 p-4 border gap-5 border-slate-300">
+        <div
+          key={topic._id}
+          className="flex justify-between items-start my-3 p-4 border gap-5 border-slate-300"
+        >
           <div>
             <h2 className="font-bold text-2xl">{topic.title}</h2>
             <div>{topic.description}</div>

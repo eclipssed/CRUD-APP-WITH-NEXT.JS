@@ -2,8 +2,7 @@ import connectMongoDB from "@/libs/mongodb";
 import { NextResponse } from "next/server";
 import Topic from "@/models/topic";
 
-connectMongoDB()
-  
+connectMongoDB();
 
 export async function PUT(req, { params }) {
   const { id } = params;

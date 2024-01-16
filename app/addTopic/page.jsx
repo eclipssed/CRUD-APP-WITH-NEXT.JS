@@ -25,7 +25,7 @@ const AddTopicPage = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("http://localhost:3000/api/topics/", {
+      const res = await fetch("/api/topics", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -35,6 +35,12 @@ const AddTopicPage = () => {
       if (res.ok) {
         router.push("/");
         router.refresh();
+      } else {
+        console.error(
+          "Error while submitting the form:",
+          res.status,
+          res.statusText
+        );
       }
     } catch (error) {
       console.log("error while submitting the form", error);
