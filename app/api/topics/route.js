@@ -1,6 +1,7 @@
 import connectMongoDB from "@/libs/mongodb";
 import { NextResponse } from "next/server";
 import Topic from "@/models/topic";
+import { revalidatePath } from "next/cache";
 
 connectMongoDB();
 
@@ -10,10 +11,10 @@ export async function POST(req) {
   return NextResponse.json({ message: "Topic created" });
 }
 
-export async function GET() {
-  const topics = await Topic.find();
-  return NextResponse.json({ topics });
-}
+// export async function GET() {
+//   const topics = await Topic.find();
+//   return NextResponse.json({ topics });
+// }
 
 export async function DELETE(req) {
   const id = req.nextUrl.searchParams.get("id");

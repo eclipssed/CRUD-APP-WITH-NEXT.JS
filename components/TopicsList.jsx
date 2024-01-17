@@ -2,24 +2,14 @@ import React from "react";
 import RemoveBtn from "./RemoveBtn";
 import Link from "next/link";
 import { HiPencilAlt } from "react-icons/hi";
-
-const getTopics = async () => {
-  try {
-    const res = await fetch(process.env.ROOT_URI + "/api/topics", {
-      cache: "no-store",
-    });
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.log("error while fetcing data", error);
-  }
-};
+import { getTopics } from "@/libs/data";
 
 const TopicsList = async () => {
-  const { topics } = await getTopics();
+  const topics = await getTopics();
+  // console.log(topics);
   return (
     <>
-      {topics.map((topic) => (
+      {topics?.map((topic) => (
         <div
           key={topic._id}
           className="flex justify-between items-start my-3 p-4 border gap-5 border-slate-300"
@@ -29,8 +19,8 @@ const TopicsList = async () => {
             <div>{topic.description}</div>
           </div>
           <div className="flex justify-center">
-            <RemoveBtn id={topic._id} />
-            <Link href={`/editTopic/${topic._id}`}>
+            <RemoveBtn id={topic.id} />
+            <Link href={`/editTopic/${topic.id}`}>
               <HiPencilAlt size={24} />
             </Link>
           </div>
