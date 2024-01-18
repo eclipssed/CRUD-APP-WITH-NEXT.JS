@@ -27,7 +27,7 @@ export async function editTopic(id, topic) {
 export async function addTopic(topic) {
   const { title, description } = topic;
   try {
-    const data = await Topic.create({ title, description });
+    await Topic.create({ title, description });
     revalidatePath("/");
     return true;
   } catch (err) {
