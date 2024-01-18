@@ -5,13 +5,15 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const AddTopicPage = () => {
-  const [topic, setTopic] = useState({});
+  const [topic, setTopic] = useState({
+    title: "",
+    description: "",
+  });
   const router = useRouter();
 
   const handleAddTopic = async () => {
     try {
       const res = await addTopic(topic);
-      console.log(res);
       if (res) {
         router.push("/");
       }
@@ -27,6 +29,7 @@ const AddTopicPage = () => {
     <form action={handleAddTopic} className="flex flex-col gap-3 ">
       <input
         onChange={handleChange}
+        value={topic.title}
         required
         name="title"
         type="text"
@@ -35,6 +38,7 @@ const AddTopicPage = () => {
       />
       <input
         onChange={handleChange}
+        value={topic.description}
         required
         name="description"
         type="text"

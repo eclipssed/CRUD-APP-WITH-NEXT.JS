@@ -15,7 +15,6 @@ const EditTopicForm = ({ id, title, description }) => {
   const handleEditTopic = async () => {
     try {
       const res = await editTopic(id, topic);
-      console.log(res);
       if (res) {
         router.push("/");
       }

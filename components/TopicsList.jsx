@@ -6,7 +6,6 @@ import { getTopics } from "@/libs/data";
 
 const TopicsList = async () => {
   const topics = await getTopics();
-  // console.log(topics);
   return (
     <>
       {topics?.map((topic) => (
