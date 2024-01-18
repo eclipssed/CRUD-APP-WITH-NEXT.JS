@@ -10,9 +10,3 @@ export async function PUT(req, { params }) {
   await Topic.findByIdAndUpdate(id, { title, description });
   return NextResponse.json({ message: "topic edited and updated" });
 }
-
-export async function GET(req, { params }) {
-  const { id } = params;
-  const topic = await Topic.findOne({ _id: id });
-  return NextResponse.json({ topic });
-}

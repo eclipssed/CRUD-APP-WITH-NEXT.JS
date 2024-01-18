@@ -1,74 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { addTopic } from "@/libs/actions";
 import { useRouter } from "next/navigation";
-
-import React from "react";
+import { useState } from "react";
 
 const AddTopicPage = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [topic, setTopic] = useState({});
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (isSubmitting) {
-      return;
-    }
-
-    if (!title || !description) {
-      alert("Title and description are required");
-      return;
-    }
-
-    setIsSubmitting(true);
-
+  const handleAddTopic = async () => {
     try {
-      const res = await fetch("/api/topics", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({ title, description }),
-      });
-      if (res.ok) {
+      const res = await addTopic(topic);
+      console.log(res);
+      if (res) {
         router.push("/");
-        router.refresh();
-      } else {
-        console.error(
-          "Error while submitting the form:",
-          res.status,
-          res.statusText
-        );
       }
     } catch (error) {
-      console.log("error while submitting the form", error);
+      console.log(error);
     }
+  };
+  const handleChange = (e) => {
+    setTopic((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 ">
+    <form action={handleAddTopic} className="flex flex-col gap-3 ">
       <input
-        onChange={(e) => setTitle(e.target.value)}
-        value={title}
+        onChange={handleChange}
+        required
+        name="title"
         type="text"
-        placeholder="Topic Title"
+        placeholder="Topic Title..."
         className="border border-slate-500 px-8 py-2"
       />
       <input
-        onChange={(e) => setDescription(e.target.value)}
-        value={description}
+        onChange={handleChange}
+        required
+        name="description"
         type="text"
-        placeholder="Topic Description"
+        placeholder="Topic Description..."
         className="border border-slate-500 px-8 py-2"
       />
       <button
         type="submit"
-        className={`bg-green-600 font-bold text-white py-3 px-6 w-fit ${
-          isSubmitting ? "cursor-not-allowed opacity-50" : "" // Disable button and change cursor if submitting
-        }`}
-        disabled={isSubmitting} // Disable the button if submitting
+        className={"bg-green-600 font-bold text-white py-3 px-6 w-fit"}
+        // disabled={isSubmitting}
       >
         Add Topic
       </button>
