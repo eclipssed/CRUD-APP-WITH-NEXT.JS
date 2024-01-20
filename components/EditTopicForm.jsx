@@ -1,11 +1,11 @@
 "use client";
 
 import { editTopic } from "@/libs/actions";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const EditTopicForm = ({ id, title, description }) => {
   const [topic, setTopic] = useState({
+    id: id,
     title: title,
     description: description,
   });

@@ -9,7 +9,7 @@ connectMongoDB();
 
 export async function editTopic(formData) {
   const { id, title, description } = Object.fromEntries(formData);
-  try {y
+  try {
     await Topic.findByIdAndUpdate(
       { _id: id },
       {
@@ -19,7 +19,7 @@ export async function editTopic(formData) {
     );
   } catch (err) {
     console.log("Error happened in editTopic: ", err);
-    return false;
+    throw err;
   }
   revalidatePath("/");
   redirect("/");
@@ -31,7 +31,7 @@ export async function addTopic(formData) {
     await Topic.create({ title, description });
   } catch (err) {
     console.log("Error happened in addTopic: ", err);
-    return false;
+    throw err;
   }
   revalidatePath("/");
   redirect("/");
@@ -41,7 +41,7 @@ export async function deleteTopic(id) {
     await Topic.findByIdAndDelete({ _id: id });
   } catch (err) {
     console.log(err);
-    return { error: "Something went wrong!" };
+    throw err;
   }
   revalidatePath("/");
 }
