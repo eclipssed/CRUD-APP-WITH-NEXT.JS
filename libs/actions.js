@@ -3,12 +3,13 @@
 import Topic from "@/models/topic";
 import { revalidatePath } from "next/cache";
 import connectMongoDB from "./mongodb";
+import { redirect } from "next/navigation";
 
 connectMongoDB();
 
-export async function editTopic(id, topic) {
-  const { title, description } = topic;
-  try {
+export async function editTopic(formData) {
+  const { id, title, description } = Object.fromEntries(formData);
+  try {y
     await Topic.findByIdAndUpdate(
       { _id: id },
       {
@@ -16,31 +17,31 @@ export async function editTopic(id, topic) {
         description,
       }
     );
-    revalidatePath("/");
-    return true;
-  } catch (error) {
-    console.log(err);
+  } catch (err) {
     console.log("Error happened in editTopic: ", err);
     return false;
   }
+  revalidatePath("/");
+  redirect("/");
 }
-export async function addTopic(topic) {
-  const { title, description } = topic;
+export async function addTopic(formData) {
+  const { title, description } = Object.fromEntries(formData);
+
   try {
     await Topic.create({ title, description });
-    revalidatePath("/");
-    return true;
   } catch (err) {
     console.log("Error happened in addTopic: ", err);
     return false;
   }
+  revalidatePath("/");
+  redirect("/");
 }
 export async function deleteTopic(id) {
   try {
     await Topic.findByIdAndDelete({ _id: id });
-    revalidatePath("/");
   } catch (err) {
     console.log(err);
     return { error: "Something went wrong!" };
   }
+  revalidatePath("/");
 }
