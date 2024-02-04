@@ -4,6 +4,10 @@ import Topic from "@/models/topic";
 import { revalidatePath } from "next/cache";
 import connectMongoDB from "./mongodb";
 import { redirect } from "next/navigation";
+import {
+  uploadOnCloudinary,
+  uploadOnCloudinaryServerSide,
+} from "./uploadOnCloudinary";
 
 connectMongoDB();
 
@@ -44,4 +48,26 @@ export async function deleteTopic(id) {
     throw err;
   }
   revalidatePath("/");
+}
+export async function uploadImage(formData) {
+  const img = formData.get("image");
+  // console.log(img);
+  try {
+    const data = await uploadOnCloudinaryServerSide(img, "nextCrud");
+    if (data) {
+      return data.secure_url;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+  // console.log(data);
+  // const uploadForm = new FormData();
+  // uploadForm.set("file", img);
+
+  // try {
+  // } catch (err) {
+  //   console.log(err);
+  //   throw err;
+  // }
 }
