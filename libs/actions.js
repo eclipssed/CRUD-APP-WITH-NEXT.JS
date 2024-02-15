@@ -5,9 +5,12 @@ import { revalidatePath } from "next/cache";
 import connectMongoDB from "./mongodb";
 import { redirect } from "next/navigation";
 import {
+  deleteImg,
   uploadOnCloudinary,
   uploadOnCloudinaryServerSide,
-} from "./uploadOnCloudinary";
+} from "./cloudinaryActions";
+import Image from "@/models/image.models";
+import { saveImg } from "./saveImg";
 
 connectMongoDB();
 
@@ -49,25 +52,34 @@ export async function deleteTopic(id) {
   }
   revalidatePath("/");
 }
+
 export async function uploadImage(formData) {
   const img = formData.get("image");
-  // console.log(img);
+  const _id = "65c5a914ec2f401dccf20544";
   try {
-    const data = await uploadOnCloudinaryServerSide(img, "nextCrud");
+    // const dbImages = await Image.findById({ _id });
+    // const dbImagePublic_id = dbImages.logoImage.public_id;
+    // const deletedImg = await deleteImg(dbImagePublic_id);
+    // if (deletedImg.result === "ok") {
+    // const data = await uploadOnCloudinaryServerSide(img, "nextCrud");
+    const data = await saveImg(img);
     if (data) {
-      return data.secure_url;
+      const imgObj = {
+        logoImage: {
+          previewUrl: data,
+          public_id: data,
+        },
+      };
+      const dbData = await Image.findByIdAndUpdate({ _id }, imgObj);
+      if (dbData);
+      {
+        return dbData;
+      }
     }
+    // }
+    revalidatePath("/imageUpload");
   } catch (error) {
     console.log(error);
     throw error;
   }
-  // console.log(data);
-  // const uploadForm = new FormData();
-  // uploadForm.set("file", img);
-
-  // try {
-  // } catch (err) {
-  //   console.log(err);
-  //   throw err;
-  // }
 }

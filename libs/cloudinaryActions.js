@@ -53,3 +53,16 @@ export async function uploadOnCloudinaryServerSide(img, folder) {
       .end(bytes);
   });
 }
+export async function deleteImg(public_id) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await cloudinaryConfig.uploader.destroy(public_id);
+      if (result) {
+        resolve(result);
+      }
+      return result;
+    } catch (error) {
+      reject(error);
+    }
+  });
+}

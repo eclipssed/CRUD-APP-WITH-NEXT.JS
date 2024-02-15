@@ -1,8 +1,6 @@
 import EditTopicForm from "@/components/EditTopicForm";
 import { getTopic } from "@/libs/data";
 
-
-
 const editTopic = async ({ params }) => {
   const { id } = params;
   const { title, description } = await getTopic(id);

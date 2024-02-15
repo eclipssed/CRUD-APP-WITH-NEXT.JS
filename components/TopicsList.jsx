@@ -2,7 +2,7 @@ import React from "react";
 import RemoveBtn from "./RemoveBtn";
 import Link from "next/link";
 import { HiPencilAlt } from "react-icons/hi";
-import { getTopics } from "@/libs/data";
+import { getImage, getTopics } from "@/libs/data";
 
 const TopicsList = async () => {
   const topics = await getTopics();
